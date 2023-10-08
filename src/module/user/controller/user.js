@@ -7,10 +7,7 @@ import sendEmail from "../../../utils/email.js";
 import cloudinary from "../../../utils/cloudinary.js";
 
 export const signup = asyncHandler(async (req, res, next) => {
-  const { userName, email, password, cPassword, phone, age, gender } = req.body;
-
-  // if (cPassword != password)
-  //   return next(new Error(" confirm password not equal password",{cause:400}));
+  const { userName, email, password,  phone, age, gender } = req.body;
 
   const checkEmail = await userModel.findOne({ email });
   if (checkEmail != null)
@@ -170,7 +167,7 @@ export const forgetPassword = asyncHandler(async (req, res, next) => {
 });
 
 export const updatePassword = asyncHandler(async (req, res, next) => {
-  const { oldPassword, newPassword, cPassword } = req.body;
+  const { oldPassword, newPassword } = req.body;
   const user = req.user;
 
   // if (newPassword != cPassword)

@@ -5,11 +5,7 @@ import cloudinary from "../../../utils/cloudinary.js";
 
 export const add = asyncHandler(async (req, res, next) => {
   const { title, description, deadline, assignTo } = req.body;
-  // const now = new Date();
-  // const fullDateDeadline = new Date(deadline);
-
-  // if (now > fullDateDeadline)
-  //   return res.status(401).json({ message: "enter valid date" });
+  
 
   const checkUser = await userModel.findById(assignTo);
   if (!checkUser) return next(new Error("user does not exist"), { cause: 404 });
@@ -32,13 +28,7 @@ export const add = asyncHandler(async (req, res, next) => {
 export const update = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const { title, description, deadline, assignTo, status } = req.body;
-  // const now = new Date();
-  // const fullDateDeadline = new Date(deadline);
-  // if (!deadline || now > fullDateDeadline)
-  //   return res.status(401).json({ message: "enter valid date" });
-
-  // if (status? status != 'toDo'&& status != 'done' && status != 'doing':false)
-  //   return next(new Error("status failed it must be ['toDo','done','doing']"),{cause:400});
+  
 
   const checkUser = await userModel.findById(assignTo);
   if (!checkUser) return next(new Error("user does not exist"), { cause: 404 });
