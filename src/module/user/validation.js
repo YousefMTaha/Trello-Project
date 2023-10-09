@@ -29,7 +29,7 @@ export const forgetPasswordMail = {
 export const forgetPassword = {
   body: Joi.object({
     newPassword: generalValidation.password.required(),
-    CNewPassword: Joi.string().valid(Joi.ref("newPassword")).required(),
+    CNewPassword: Joi.string()  .valid(Joi.ref("newPassword")).required(),
     token: generalValidation.token.required(),
   }).required(),
 };

@@ -139,7 +139,7 @@ export const forgetPasswordMail = asyncHandler(async (req, res, next) => {
 });
 
 export const forgetPassword = asyncHandler(async (req, res, next) => {
-  const { newPassword, CNewPassword } = req.body;
+  const { newPassword} = req.body;
   const { token } = req.params;
 
   const decode = Jwt.verify(token, process.env.EMAIL_SIGNATURE);
@@ -152,8 +152,6 @@ export const forgetPassword = asyncHandler(async (req, res, next) => {
       })
     );
 
-  // if (newPassword != CNewPassword)
-  //   return next(new Error("confirm password does not match new password",{cause:400}));
   const newPasswordHashed = await bcrypt.hash(
     newPassword,
     parseInt(process.env.SALT_ROUND)
