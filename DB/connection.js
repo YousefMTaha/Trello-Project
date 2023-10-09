@@ -1,7 +1,7 @@
 
 import { connect } from "mongoose";
 const connectDB = async () => {
-  return await connect(process.env.DB_URL, {
+  return await connect(process.env.DB_ATLAS, {
     serverSelectionTimeoutMS: 1000,
   })
     .then(() => {
