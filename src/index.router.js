@@ -8,7 +8,7 @@ app.use(express.json())
 app.use("/user",userRouter)
 app.use("/task",taskRouter)
 app.get("*",(req,res,next)=>{
-    return res.json({message:"error 404"})
+    return res.json({message:"Home Page"})
 })
 app.use(globalErrorHandler)
 connectDB()
