@@ -30,8 +30,8 @@ export const generalValidation = {
     .pattern(new RegExp(/(?:male|Male|female|Female|FEMALE|MALE)$/))
     .lowercase(),
     task:{
-      title: Joi.string().min(3).max(20).alphanum(),
-      description: Joi.string().max(1000).alphanum(),
+      title: Joi.string().min(3).max(20),
+      description: Joi.string().max(1000),
       deadline: Joi.date().greater(Date.now()),
      status: Joi.string().pattern(new RegExp(/(?:toDo|done|doing)$/)),
 
