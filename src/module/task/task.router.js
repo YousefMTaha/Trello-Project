@@ -14,7 +14,7 @@ router.post("/getAllCreatedTasks",auth,validationWithToken(validator.validateTok
 router.get("/getAllAssignedToMe",auth,validationWithToken(validator.validateToken),taskController.getAllAssignedToMe)
 router.get("/getAllLateTasks",auth,validationWithToken(validator.validateToken),taskController.getAllLateTasks)
 router.get("/getAllTaskAssignToAnyOne/:id",auth,validationWithToken(validator.getAllTaskAssignToAnyOne),taskController.getAllTaskAssignToAnyOne)
-router.patch("/attachment/:id",auth,validationWithToken(validator.attachment),fileUpload(fileValidation.file).single('file'),taskController.updateAttachment)
+router.patch("/attachment/:id",auth,fileUpload(fileValidation.file).single('file'),validationWithToken(validator.attachment),taskController.updateAttachment)
 
 
 
