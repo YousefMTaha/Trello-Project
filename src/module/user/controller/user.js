@@ -7,7 +7,7 @@ import sendEmail from "../../../utils/email.js";
 import cloudinary from "../../../utils/cloudinary.js";
 
 export const signup = asyncHandler(async (req, res, next) => {
-  const { userName, email, password,  phone, age, gender } = req.body;
+  const { userName, email, password, phone, age, gender } = req.body;
 
   const checkEmail = await userModel.findOne({ email });
   if (checkEmail != null)
@@ -139,7 +139,7 @@ export const forgetPasswordMail = asyncHandler(async (req, res, next) => {
 });
 
 export const forgetPassword = asyncHandler(async (req, res, next) => {
-  const { newPassword} = req.body;
+  const { newPassword } = req.body;
   const { token } = req.params;
 
   const decode = Jwt.verify(token, process.env.EMAIL_SIGNATURE);
@@ -168,11 +168,6 @@ export const updatePassword = asyncHandler(async (req, res, next) => {
   const { oldPassword, newPassword } = req.body;
   const user = req.user;
 
-  // if (newPassword != cPassword)
-  //   return next(
-  //     new Error("confirmPassword does not match new password", { cause: 400 })
-  //   );
-
   const match = await bcrypt.compare(oldPassword, user.password);
   if (!match)
     return next(new Error("old password is incorrect", { cause: 401 }));
@@ -188,7 +183,7 @@ export const update = asyncHandler(async (req, res, next) => {
   const { userName, age, phone } = req.body;
   const user = req.user;
 
-  const updateUser = await userModel.updateOne(
+  await userModel.updateOne(
     {
       _id: user.id,
     },
@@ -207,12 +202,14 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
   await userModel.deleteOne({
     _id: user.id,
   });
- const rmProfilePic =  await cloudinary.uploader.destroy(user.profilePhoto.public_id)
- for (const coverPic of user.coverPhoto) {
-  await cloudinary.uploader.destroy(coverPic.public_id)  
-
-}
-const deleteFolderCloudinary = await cloudinary.api.delete_resources_by_prefix(`trello/user/${user._id}`)
+  const rmProfilePic = await cloudinary.uploader.destroy(
+    user.profilePhoto.public_id
+  );
+  for (const coverPic of user.coverPhoto) {
+    await cloudinary.uploader.destroy(coverPic.public_id);
+  }
+  const deleteFolderCloudinary =
+    await cloudinary.api.delete_resources_by_prefix(`trello/user/${user._id}`);
   return res.status(200).json({ message: "done" });
 });
 
@@ -233,28 +230,34 @@ export const logout = asyncHandler(async (req, res, next) => {
 });
 
 export const changeProfilePic = asyncHandler(async (req, res, next) => {
-  const {public_id,secure_url} = await cloudinary.uploader.upload(req.file.path,{folder:`trello/user/${req.user._id}/profile`})
+  const { public_id, secure_url } = await cloudinary.uploader.upload(
+    req.file.path,
+    { folder: `trello/user/${req.user._id}/profile` }
+  );
   const user = await userModel.findOneAndUpdate(
     { _id: req.user._id },
-    { profilePhoto: {public_id,secure_url} },
+    { profilePhoto: { public_id, secure_url } },
     { new: true }
   );
 
-  return res.status(200).json({ message: "done",user, file:req.file});
+  return res.status(200).json({ message: "done", user, file: req.file });
 });
 
 export const changeCoverPic = asyncHandler(async (req, res, next) => {
   const images = req.files;
-  const destinationFiles = []
+  const destinationFiles = [];
   for (const image of images) {
-    const {public_id,secure_url} = await cloudinary.uploader.upload(image.path,{folder:`trello/user/${req.user._id}/cover`})
+    const { public_id, secure_url } = await cloudinary.uploader.upload(
+      image.path,
+      { folder: `trello/user/${req.user._id}/cover` }
+    );
 
-    destinationFiles.push({public_id,secure_url});
+    destinationFiles.push({ public_id, secure_url });
   }
 
   const user = await userModel.findOneAndUpdate(
     { _id: req.user._id },
-    { $push:{coverPhoto:destinationFiles}},
+    { $push: { coverPhoto: destinationFiles } },
     { new: true }
   );
 

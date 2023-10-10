@@ -142,7 +142,7 @@ export const updateAttachment = asyncHandler(async(req,res,next)=>{
   return next(new Error("you do not have permission on this task",{cause:400}))
   
   const {public_id,secure_url} = await cloudinary.uploader.upload(req.file.path,{folder:`trello/task/${id}/attachment`})
-   const taskUpdate = await taskModel.updateOne({_id:id},{
+    await taskModel.updateOne({_id:id},{
     attachment:{public_id,secure_url}
    })
    return res.status(200).json({message:"done",})
