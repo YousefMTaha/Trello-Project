@@ -1,19 +1,28 @@
+const validation = (schema) => {
+  return (req, res, next) => {
+    const reqFields = ["body", "params", "query", "headers", "file", "files"];
+    const validationErr = [];
 
-export const validation = (JoiSchema) =>{
-    return (req,res,next)=>{
-        const validateResult = JoiSchema.body.validate({...req.params,...req.body,...req.file},{abortEarly:false})
-        if(validateResult.error)
-        return res.json({validateErr: validateResult})
-        return next()
+    reqFields.forEach((key) => {
+      if (schema[key]) {
+        const validationResult = schema[key].validate(req[key], {
+          abortEarly: false,
+        });
+
+        if (validationResult.error) {
+          validationErr.push(validationResult.error);
+        }
+      }
+    });
+
+    if (validationErr.length) {
+      return res
+        .status(400)
+        .json({ message: "Validation Err", validationErr });
     }
-    
-}
-export const validationWithToken = (JoiSchema) =>{
-    return (req,res,next)=>{
-        const validateResult = JoiSchema.body.validate({...req.params,...req.body,...req.file ,token:req.headers.authorization},{abortEarly:false})
-        if(validateResult.error)
-        return res.json({validateErr: validateResult})
-        return next()
-    }
-    
-}
+
+    return next();
+  };
+};
+
+export default validation;

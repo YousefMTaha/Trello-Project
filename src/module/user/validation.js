@@ -11,6 +11,8 @@ export const signup = {
     age: generalValidation.age,
     gender: generalValidation.gender,
   }).required(),
+  params: Joi.object({}).required(),
+  query: Joi.object({}).required(),
 };
 
 export const login = {
@@ -18,20 +20,27 @@ export const login = {
     email: generalValidation.email.required(),
     password: generalValidation.password.required(),
   }).required(),
+  params: Joi.object({}).required(),
+  query: Joi.object({}).required(),
 };
 
 export const forgetPasswordMail = {
   body: Joi.object({
     email: generalValidation.email.required(),
   }).required(),
+  params: Joi.object({}).required(),
+  query: Joi.object({}).required(),
 };
 
 export const forgetPassword = {
   body: Joi.object({
     newPassword: generalValidation.password.required(),
-    CNewPassword: Joi.string()  .valid(Joi.ref("newPassword")).required(),
+    CNewPassword: Joi.string().valid(Joi.ref("newPassword")).required(),
+  }).required(),
+  params: Joi.object({
     token: generalValidation.token.required(),
   }).required(),
+  query: Joi.object({}).required(),
 };
 
 export const updatePassword = {
@@ -39,8 +48,9 @@ export const updatePassword = {
     oldPassword: generalValidation.password.required(),
     newPassword: generalValidation.password.required(),
     cPassword: Joi.string().valid(Joi.ref("newPassword")).required(),
-    token: generalValidation.token.required(),
   }).required(),
+  params: Joi.object({}).required(),
+  query: Joi.object({}).required(),
 };
 
 export const update = {
@@ -48,12 +58,27 @@ export const update = {
     userName: generalValidation.userName,
     age: generalValidation.age,
     phone: generalValidation.phone,
-    token: generalValidation.token.required(),
   }).required(),
+  params: Joi.object({}).required(),
+  query: Joi.object({}).required(),
 };
 
-export const ValidateToken = {
-  body: Joi.object({
-    token: generalValidation.token.required(),
-  }).required(),
+export const general = {
+  body: Joi.object({}).required(),
+  params: Joi.object({}).required(),
+  query: Joi.object({}).required(),
+};
+
+export const profileImage = {
+  body: Joi.object({}).required(),
+  params: Joi.object({}).required(),
+  query: Joi.object({}).required(),
+  file: generalValidation.file.required(),
+};
+
+export const coverImage = {
+  body: Joi.object({}).required(),
+  params: Joi.object({}).required(),
+  query: Joi.object({}).required(),
+  files: Joi.array().items(generalValidation.file).max(4).required(),
 };

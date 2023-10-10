@@ -7,8 +7,9 @@ export const add = {
     description: generalValidation.task.description.required(),
     deadline: generalValidation.task.deadline.required(),
     assignTo: generalValidation.id.required(),
-    token: generalValidation.token.required(),
   }).required(),
+  params: Joi.object({}).required(),
+  query: Joi.object({}).required(),
 };
 
 export const update = {
@@ -18,33 +19,38 @@ export const update = {
     deadline: generalValidation.task.deadline,
     assignTo: generalValidation.id,
     status: generalValidation.task.status,
-    id: generalValidation.id.required(),
-    token: generalValidation.token.required(),
   }).required(),
+  params: Joi.object({
+    id: generalValidation.id.required(),
+  }).required(),
+  query: Joi.object({}).required(),
 };
 export const remove = {
-  body: Joi.object({
+  body: Joi.object({}).required(),
+  params: Joi.object({
     id: generalValidation.id.required(),
-    token: generalValidation.token.required(),
   }).required(),
+  query: Joi.object({}).required(),
 };
 
 export const getAllTaskAssignToAnyOne = {
-  body: Joi.object({
+  body: Joi.object({}).required(),
+  params: Joi.object({
     id: generalValidation.id.required(),
-
-    token: generalValidation.token.required(),
   }).required(),
+  query: Joi.object({}).required(),
 };
 
-export const validateToken = {
-  body: Joi.object({
-    token: generalValidation.token.required(),
-  }).required(),
+export const general = {
+  body: Joi.object({}).required(),
+  params: Joi.object({}).required(),
+  query: Joi.object({}).required(),
 };
 export const attachment = {
-  body: Joi.object({
+  body: Joi.object({}).required(),
+  params: Joi.object({
     id: generalValidation.id.required(),
-    token: generalValidation.token.required(),
   }).required(),
+  query: Joi.object({}).required(),
+  file: generalValidation.file.required(),
 };
